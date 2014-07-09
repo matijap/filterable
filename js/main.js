@@ -2,7 +2,9 @@ $(document).ready(function() {
 	
 	recalculateGrid();
 	var clickable = true;
-	function recalculateGrid()
+	var currentInRow = 0;
+
+	function calculateAllowedInGrid()
 	{
 		var boxWidthWithMargins = 220;
 		var currentWidth = $(window).width();
@@ -11,17 +13,28 @@ $(document).ready(function() {
 		}
 		currentWidth -= 40;
 		var allowedInGrid = currentWidth / boxWidthWithMargins;
+		allowedInGrid = Math.floor(allowedInGrid);
+		return allowedInGrid;
+	}
+
+	function recalculateGrid()
+	{
+		var boxWidthWithMargins = 220;
 		var counter = 1;
 		var top     = 0;
 		var left    = 0;
-		allowedInGrid = Math.floor(allowedInGrid);
+
+		allowedInGrid = calculateAllowedInGrid();
+		console.log('tu')
+		currentInRow = allowedInGrid;
 		$('.image-holder').each(function() {
 			var current = $(this);
 			if (!current.hasClass('mark-hide')) {
 				current.removeClass('display-scaled');
 				current.addClass('display-normal');
+				// console.log('animira')
 				current.animate({'top':  top + 'px', 'left': left + 'px'}, 500, function() {
-    				clickable = true;
+					
   				});
 				// current.css('top', top + 'px');
 				// current.css('left', left + 'px');
@@ -36,39 +49,32 @@ $(document).ready(function() {
 				current.removeClass('display-normal');
 				current.addClass('display-scaled');
 			}
-		});
-
-		$(document).on('click', '.tag-links', function() {
-			if (clickable) {
-				clickable = false;
-				var data = $(this).data();
-				$('.image-holder').each(function() {
-					var current = $(this);
-					if (!current.hasClass('tag-' + data.tag)) {
-						// if (!current.hasClass('display-scaled')) {
-						// 	current.addClass('display-scaled');
-						// }
-						// current.removeClass('display-normal');
-						// current.removeClass('display-block');
-						current.addClass('mark-hide')
-						// current.removeClass('mark-s')
-					} else {
-						// if (!current.hasClass('display-normal')) {
-						// 	// current.addClass('display-block');
-						// 	current.addClass('display-normal');
-						// }
-						current.removeClass('mark-hide')
-						// current.addClass('mark-hide')
-					}
-				});
-				recalculateGrid();
-			} else {
-				console.log('nije')
+			if (current.is(':last-child')) {
+				clickable = true;
 			}
 		});
 	}
+	$(document).on('click', '.tag-links', function() {
+		if (clickable) {
+			clickable = false;
+			var data = $(this).data();
+			$('.image-holder').each(function() {
+				var current = $(this);
+				if (!current.hasClass('tag-' + data.tag)) {
+					current.addClass('mark-hide');
+				} else {
+					current.removeClass('mark-hide');
+				}
+			});
+			recalculateGrid();
+		}
+	});
+	
 
 	$( window ).resize(function() {
-  		recalculateGrid();
+		allowedInGrid = calculateAllowedInGrid();
+		if (allowedInGrid != currentInRow) {
+			recalculateGrid();	
+		}
 	});
 });
