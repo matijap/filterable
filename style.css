@@ -1,0 +1,58 @@
+html, body {
+	height: 100%;
+}
+.container {
+	width: 1196px;
+	margin: 0 auto;
+}
+.menu {
+	height: 50px;
+	padding-top: 20px;
+}
+.menu li {
+	display: inline-block;
+}
+.menu a {
+	text-decoration: none;
+	color: blue;
+}
+.menu a:hover {
+	color: red;
+}
+.content {
+	border-top: 1px solid;
+	padding: 20px;
+	font-size: 0;
+	position: relative;
+}
+.image-holder {
+	width: 200px;
+	height: 200px;
+	border: 1px solid;
+	display: inline-block;
+	position: absolute;
+}
+.image-holder:first-child {
+	margin-left: 0;
+}
+.display-scaled {
+	-ms-transform: scale(0,0); /* IE 9 */
+    -webkit-transform: scale(0,0); /* Chrome, Safari, Opera */
+    transform: scale(0,0);
+    -webkit-transition-duration: 1s; /* Safari */
+    transition-duration: 1s;
+}
+.display-normal {
+	/*display: block;*/
+	-ms-transform: scale(1,1); /* IE 9 */
+    -webkit-transform: scale(1,1); /* Chrome, Safari, Opera */
+    transform: scale(1,1);
+    -webkit-transition-duration: 1s; /* Safari */
+    transition-duration: 1s;
+}
+.display-none {
+	display: none;
+}
+.display-block {
+	display: block;
+}
